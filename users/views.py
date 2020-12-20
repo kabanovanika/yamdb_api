@@ -2,7 +2,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 
-from rest_framework import viewsets, permissions, status
+from rest_framework import viewsets, status
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -19,7 +19,7 @@ EMAIL_AUTH = 'authorization@yamdb.fake'
 @permission_classes([AllowAny])
 def get_jwt_token(request):
     """
-    Receiving a JWT token in exchange for email and confirmation_code. 
+    Receiving a JWT token in exchange for email and confirmation_code.
     """
 
     serializer = ConfirmationCodeSerializer(data=request.data)

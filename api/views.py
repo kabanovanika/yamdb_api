@@ -3,15 +3,13 @@ from django.shortcuts import get_object_or_404
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from rest_framework import exceptions, filters, status, viewsets, mixins
+from rest_framework import filters, status, viewsets, mixins
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, \
     IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveUpdateDestroyAPIView
 
-from users.models import User
-
-from .models import Category, Genre, Title, Review, Comment
+from .models import Category, Genre, Title, Review
 
 from .permissions import IsAdmin, IsAnon, IsModerator, IsAdminOrReadOnly, \
     RetrieveUpdateDestroyPermission, MyCustomPermissionClass
