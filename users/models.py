@@ -16,7 +16,10 @@ class User(AbstractUser):
     username field.
     """
 
-    username = models.CharField(_('username'), max_length=30, blank=True, unique=True)
+    username = models.CharField(_('username'),
+                                max_length=30,
+                                blank=True,
+                                unique=True)
     email = models.EmailField(_('email address'), unique=True)
     bio = models.TextField(max_length=500, blank=True)
     role = models.CharField(
@@ -28,18 +31,16 @@ class User(AbstractUser):
     confirmation_code = models.CharField(max_length=10, default='FOOBAR')
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('username',)
+    REQUIRED_FIELDS = ('username', )
 
     @property
     def is_admin(self):
         """
         Function for quick change property 'role' of User model.
         """
-        return (
-                self.role == UserRoles.ADMIN or
-                self.is_superuser or
-                self.is_staff)
-    
+        return (self.role == UserRoles.ADMIN or self.is_superuser
+                or self.is_staff)
+
     @property
     def is_moderator(self):
         """
@@ -53,4 +54,3 @@ class User(AbstractUser):
         """
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
-

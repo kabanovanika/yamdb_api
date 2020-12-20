@@ -1,7 +1,6 @@
 import os
 import datetime
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
@@ -55,7 +54,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -67,7 +65,6 @@ DATABASES = {
     }
 }
 
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -78,19 +75,19 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME':
-            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME':
-            'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
         'NAME':
-            'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
         'NAME':
-            'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -119,13 +116,11 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
     'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.PageNumberPagination',
+    'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE':
-        100
+    100
 }
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=60)
-}
+SIMPLE_JWT = {'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=60)}
 
 AUTH_USER_MODEL = 'users.User'
 

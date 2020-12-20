@@ -26,17 +26,15 @@ class Title(models.Model):
     year = models.PositiveIntegerField(null=True, blank=True)
     description = models.CharField(max_length=400, blank=True)
     genre = models.ManyToManyField(Genre, blank=True)
-    category = models.ForeignKey(
-        Category,
-        blank=True,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='titles'
-    )
+    category = models.ForeignKey(Category,
+                                 blank=True,
+                                 null=True,
+                                 on_delete=models.SET_NULL,
+                                 related_name='titles')
 
     def __str__(self):
         return self.name
-    
+
     @property
     def rating(self):
         reviews = self.reviews.all()
@@ -45,47 +43,35 @@ class Title(models.Model):
 
 
 class Review(models.Model):
-    title = models.ForeignKey(
-        Title, 
-        on_delete=models.CASCADE,
-        related_name='reviews'
-    )
+    title = models.ForeignKey(Title,
+                              on_delete=models.CASCADE,
+                              related_name='reviews')
     text = models.TextField()
-    author = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE,
-        related_name='reviews'
-    )
+    author = models.ForeignKey(User,
+                               on_delete=models.CASCADE,
+                               related_name='reviews')
     score = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(10)]
-    )
-    pub_date = models.DateTimeField(
-        'date published',
-        auto_now_add=True,
-        db_index=True
-    )
+        validators=[MinValueValidator(0),
+                    MaxValueValidator(10)])
+    pub_date = models.DateTimeField('date published',
+                                    auto_now_add=True,
+                                    db_index=True)
 
     def __str__(self):
         return f'{self.title}, {self.score}, {self.author}'
 
 
 class Comment(models.Model):
-    review = models.ForeignKey(
-        Review, 
-        on_delete=models.CASCADE,
-        related_name='comments'
-    )
+    review = models.ForeignKey(Review,
+                               on_delete=models.CASCADE,
+                               related_name='comments')
     text = models.TextField()
-    author = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE,
-        related_name='comments'
-    )
-    pub_date = models.DateTimeField(
-        'date published', 
-        auto_now_add=True, 
-        db_index=True
-    )
+    author = models.ForeignKey(User,
+                               on_delete=models.CASCADE,
+                               related_name='comments')
+    pub_date = models.DateTimeField('date published',
+                                    auto_now_add=True,
+                                    db_index=True)
 
     def __str__(self):
         return f'{self.author}, {self.pub_date:%d.%m.%Y}, {self.text[:50]}'

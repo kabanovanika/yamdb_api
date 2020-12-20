@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-
 from .models import User
 
 
@@ -12,12 +11,15 @@ class UserSerializer(serializers.ModelSerializer):
     2)'api/v1/users/{username}/', [GET, PATCH, DELETE], permission=(IsAdmin)
     3)'api/v1/users/me/', [GET, PATCH], permission=(IsOwner)
     """
-
     class Meta:
         model = User
         fields = (
-            'bio', 'first_name', 'last_name',
-            'username', 'email', 'role',
+            'bio',
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'role',
         )
 
 
@@ -33,7 +35,10 @@ class UserCreationSerializer(serializers.Serializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email',)
+        fields = (
+            'username',
+            'email',
+        )
 
 
 class ConfirmationCodeSerializer(serializers.Serializer):
@@ -43,11 +48,12 @@ class ConfirmationCodeSerializer(serializers.Serializer):
     Receiving a JWT token in exchange for email and confirmation_code.
     """
     email = serializers.CharField()
-    confirmation_code = serializers.CharField(
-        allow_blank=False,
-        write_only=True
-    )
+    confirmation_code = serializers.CharField(allow_blank=False,
+                                              write_only=True)
 
     class Meta:
         model = User
-        fields = ('confirmation_code', 'email',)
+        fields = (
+            'confirmation_code',
+            'email',
+        )

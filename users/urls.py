@@ -5,7 +5,6 @@ from django.urls import path, include
 
 from .views import UserViewSet, get_jwt_token, send_confirm_code
 
-
 router_users_v1 = DefaultRouter()
 router_users_v1.register(r'users', UserViewSet, basename='users')
 

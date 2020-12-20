@@ -23,7 +23,10 @@ from .serializers import CategorySerializer, GenreSerializer, \
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    permission_classes = (MyCustomPermissionClass, IsAuthenticatedOrReadOnly,)
+    permission_classes = (
+        MyCustomPermissionClass,
+        IsAuthenticatedOrReadOnly,
+    )
     serializer_class = CategorySerializer
     lookup_field = 'slug'
     filter_backends = [filters.SearchFilter]
@@ -41,7 +44,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class GenreViewSet(viewsets.ModelViewSet):
-    permission_classes = (MyCustomPermissionClass, IsAuthenticatedOrReadOnly,)
+    permission_classes = (
+        MyCustomPermissionClass,
+        IsAuthenticatedOrReadOnly,
+    )
     serializer_class = GenreSerializer
     lookup_field = 'slug'
     filter_backends = [filters.SearchFilter]
@@ -66,8 +72,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     filterset_class = TitlesFilter
 
 
-class ReviewListCreateSet(mixins.ListModelMixin,
-                          mixins.CreateModelMixin,
+class ReviewListCreateSet(mixins.ListModelMixin, mixins.CreateModelMixin,
                           viewsets.GenericViewSet):
     permission_classes = [IsAnon | IsAdmin | IsModerator | IsAuthenticated]
     serializer_class = ReviewSerializer
@@ -98,28 +103,24 @@ class ReviewListCreateSet(mixins.ListModelMixin,
         headers = self.get_success_headers(serializer.data)
 
         if not_create_success:
-            return Response(
-                serializer.data,
-                status=status.HTTP_400_BAD_REQUEST,
-                headers=headers
-            )
+            return Response(serializer.data,
+                            status=status.HTTP_400_BAD_REQUEST,
+                            headers=headers)
         else:
-            return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED,
-                headers=headers
-            )
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED,
+                            headers=headers)
 
 
 class ReviewRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ReviewSerializer
-    permission_classes = [RetrieveUpdateDestroyPermission, ]
+    permission_classes = [
+        RetrieveUpdateDestroyPermission,
+    ]
 
     def get_object(self):
-        obj = get_object_or_404(
-            self.get_queryset(),
-            pk=self.kwargs['review_id']
-        )
+        obj = get_object_or_404(self.get_queryset(),
+                                pk=self.kwargs['review_id'])
         self.check_object_permissions(self.request, obj)
         return obj
 
@@ -130,8 +131,7 @@ class ReviewRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         return queryset
 
 
-class CommentListCreateSet(mixins.ListModelMixin,
-                           mixins.CreateModelMixin,
+class CommentListCreateSet(mixins.ListModelMixin, mixins.CreateModelMixin,
                            viewsets.GenericViewSet):
     permission_classes = [IsAnon | IsAdmin | IsModerator | IsAuthenticated]
     serializer_class = CommentSerializer
@@ -161,28 +161,24 @@ class CommentListCreateSet(mixins.ListModelMixin,
         headers = self.get_success_headers(serializer.data)
 
         if not_create_success:
-            return Response(
-                serializer.data,
-                status=status.HTTP_400_BAD_REQUEST,
-                headers=headers
-            )
+            return Response(serializer.data,
+                            status=status.HTTP_400_BAD_REQUEST,
+                            headers=headers)
         else:
-            return Response(
-                serializer.data,
-                status=status.HTTP_201_CREATED,
-                headers=headers
-            )
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED,
+                            headers=headers)
 
 
 class CommentRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [RetrieveUpdateDestroyPermission,]
+    permission_classes = [
+        RetrieveUpdateDestroyPermission,
+    ]
 
     def get_object(self):
-        obj = get_object_or_404(
-            self.get_queryset(),
-            pk=self.kwargs['comment_id']
-        )
+        obj = get_object_or_404(self.get_queryset(),
+                                pk=self.kwargs['comment_id'])
         self.check_object_permissions(self.request, obj)
         return obj
 

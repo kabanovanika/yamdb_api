@@ -5,10 +5,11 @@ from django.conf import settings
 
 
 class TestWorkflow:
-
     def test_workflow(self):
         try:
-            with open(f'{os.path.join(settings.BASE_DIR, "yamdb_workflow.yaml")}', 'r') as f:
+            with open(
+                    f'{os.path.join(settings.BASE_DIR, "yamdb_workflow.yaml")}',
+                    'r') as f:
                 yamdb = f.read()
         except FileNotFoundError:
             assert False, 'Проверьте, что добавили файл yamdb_workflow.yaml в корневой каталог для проверки'

@@ -4,10 +4,10 @@ from django.conf import settings
 
 
 class TestRequirements:
-
     def test_requirements(self):
         try:
-            with open(f'{os.path.join(settings.BASE_DIR, "requirements.txt")}', 'r') as f:
+            with open(f'{os.path.join(settings.BASE_DIR, "requirements.txt")}',
+                      'r') as f:
                 requirements = f.read()
         except FileNotFoundError:
             assert False, 'Проверьте, что добавили файл requirements.txt'

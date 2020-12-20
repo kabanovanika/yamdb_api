@@ -12,8 +12,8 @@ from .permissions import IsAdminPermissions
 from .serializers import UserSerializer, ConfirmationCodeSerializer, \
     UserCreationSerializer
 
-
 EMAIL_AUTH = 'authorization@yamdb.fake'
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -30,13 +30,9 @@ def get_jwt_token(request):
     user = get_object_or_404(User, email=email)
     if default_token_generator.check_token(user, confirmation_code):
         token = AccessToken.for_user(user)
-        return Response(
-            {'token': str(token)}, status=status.HTTP_200_OK
-        )
-    return Response(
-        {'confirmation_code': 'Неверный код подтверждения'},
-        status=status.HTTP_400_BAD_REQUEST
-    )
+        return Response({'token': str(token)}, status=status.HTTP_200_OK)
+    return Response({'confirmation_code': 'Неверный код подтверждения'},
+                    status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -56,13 +52,11 @@ def send_confirm_code(request):
         username=username,
     )
     confirmation_code = default_token_generator.make_token(user)
-    send_mail(
-            subject='Yours confirmation code',
-            message=f'confirmation_code: {confirmation_code}',
-            from_email=EMAIL_AUTH,
-            recipient_list=(email,),
-            fail_silently=False
-        )
+    send_mail(subject='Yours confirmation code',
+              message=f'confirmation_code: {confirmation_code}',
+              from_email=EMAIL_AUTH,
+              recipient_list=(email, ),
+              fail_silently=False)
     serializer.save()
     return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -80,20 +74,18 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminPermissions]
     lookup_field = 'username'
 
-    @action(
-        methods=['GET', 'PATCH'],
-        detail=False,
-        permission_classes=(IsAuthenticated,),
-        url_path='me'
-    )
+    @action(methods=['GET', 'PATCH'],
+            detail=False,
+            permission_classes=(IsAuthenticated, ),
+            url_path='me')
     def me(self, request):
         user_profile = get_object_or_404(User, email=self.request.user.email)
         if request.method == 'GET':
             serializer = UserSerializer(user_profile)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        serializer = UserSerializer(
-            user_profile, data=request.data, partial=True
-        )
+        serializer = UserSerializer(user_profile,
+                                    data=request.data,
+                                    partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
