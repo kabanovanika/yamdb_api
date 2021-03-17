@@ -54,4 +54,4 @@ docker-compose exec web python manage.py loaddata fixtures.json
 
 ## Authors
 
-* **Nika Kabanova** - *Initial work* - [kabanovanika](https://github.com/kabanovanika) - Yandex.Praktikum student 🤓 
+* **Nika Dmitrievskaya** - *Backend* - [ndmitrievskaya](https://github.com/ndmitrievskaya) 
